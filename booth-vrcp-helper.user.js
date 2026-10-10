@@ -2,7 +2,8 @@
 // @name        VRCPirate for booth.pm
 // @namespace   Violentmonkey Scripts
 // @match       https://booth.pm/en/items/*
-// @require      https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js
+// @require     https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js
+// @updateURL   https://github.com/VRCPirate/Userscripts/raw/refs/heads/main/booth-vrcp-helper.user.js
 // @grant       GM_xmlhttpRequest
 // @version     1.0
 // @author      doclan
@@ -10,9 +11,12 @@
 // ==/UserScript==
 
 $(document).ready(() => {
+  // GM_xmlhttpRequest
+  // https://api-v3.vrcpirate.com/assets?page=1&search=123
+
   const bid = window.location.pathname.split('items/')[1];
   if(!bid)
-    return console.log("[VRCPirate] SOMETHING WENT WRONG");
+    return console.log("SOMETHING WENT WRONG");
 
   const downloadBox = $('<div></div>');
   const mainText = $('<p></p>');
@@ -22,7 +26,7 @@ $(document).ready(() => {
 
   GM_xmlhttpRequest({
     method: "GET",
-    url: `https://api-v2.vrcpirate.com/assets?page=1&search=${bid}`,
+    url: `https://api-v3.vrcpirate.com/assets?page=1&search=${bid}`,
     onload: function(response) {
       const data = JSON.parse(response.responseText);
       if(data.meta.totalItems > 0)
